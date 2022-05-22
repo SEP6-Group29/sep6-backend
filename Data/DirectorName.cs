@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MovieApp.Models
+namespace MovieApp.Data
 {
-    public class Movies
+    public class DirectorName
     {
-        public string MovieName { get; set; }
+        public DirectorName DirectorName_ { get; set; }
     }
 }
