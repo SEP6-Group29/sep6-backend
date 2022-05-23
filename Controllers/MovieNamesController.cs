@@ -114,6 +114,17 @@ namespace MovieApp.Controllers
             }
             return Ok(person);
         }
+        [HttpGet("GetMovies/{id}")]
+        public IActionResult GetMovie(int id)
+        {
+
+            Movie movie = dbContext.movies.Where(c => c.id == id).FirstOrDefault();
+            if (movie == null)
+            {
+                return StatusCode(404, "no people");
+            }
+            return Ok(movie);
+        }
         [HttpGet("GetDirectorsMovies")]
         public IActionResult GetDirectorsMovies()
         {
