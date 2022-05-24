@@ -7,6 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using MovieApp.Data;
+using MovieApp.Repository;
+using MovieApp.Repository.Interface;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
@@ -41,7 +43,8 @@ namespace MovieApp
             //ContractResolver
             //= new DefaultContractResolver());
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options=>options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            services.AddScoped<IMovieRepository, MovieRepository>();
 
         }
 

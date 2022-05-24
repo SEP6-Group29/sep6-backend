@@ -8,9 +8,11 @@ namespace MovieApp.Data
 {
     public class Star
     {
-        [Key]
+       //public int id { get; set; }
         public int movie_id { get; set; }
         public int person_id { get; set; }
+        public virtual Movie movies { get; set; } = null!;
+        public virtual Person person { get; set; } = null!;
     
         //public int movie_id { get; set; }
         //public float rating { get; set; }

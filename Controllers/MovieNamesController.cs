@@ -9,6 +9,7 @@ using System.Data.SqlClient;
 using System.Data;
 using MovieApp.Models;
 using MovieApp.Data;
+using MovieApp.Repository.Interface;
 
 namespace MovieApp.Controllers
 {
@@ -16,134 +17,128 @@ namespace MovieApp.Controllers
     [ApiController]
     public class MovieNamesController : ControllerBase
     {
+        private readonly IMovieRepository movieRepository;
         private MovieDbContext dbContext;
-        //private readonly IConfiguration configuration;
+        
 
-        public MovieNamesController (MovieDbContext dbContext)
+        public MovieNamesController (IMovieRepository movieRepository)
         {
-            this.dbContext = dbContext;
-        }
-        [HttpGet("GetMovies")]
-        public IActionResult GetMovies()
-        {
-
-
-            var movies = dbContext.movies.ToList();
-                if(movies.Count ==0)
-                {
-                    return StatusCode(404, "no movie");
-                }
-                return Ok(movies);
+            this.movieRepository = movieRepository;
             
+        }
+
+        //-------------GETING ALL MOVIES
+        [HttpGet("GetMovies/")]
+        public async Task<ActionResult<IEnumerable<Movie>>> GetMovies([FromQuery] Filter? filter)
+        {
+            if (filter == null)
+            {
+                filter = new Filter();
+            }
+            var result = await movieRepository.GetMoviesAsync(filter);
             
-            //string query = @"
-            //        select id, title, year from dbo.movies";
-            //DataTable table = new DataTable();
-            //string sqlDataSource = configuration.GetConnectionString("MoviesAppCon");
-            //SqlDataReader myReader;
-            //using (SqlConnection myCon = new SqlConnection(sqlDataSource))
-            //{
-            //    myCon.Open();
-            //    using (SqlCommand myCommand = new SqlCommand(query, myCon))
-            //    {
-            //        myReader = myCommand.ExecuteReader();
-            //        table.Load(myReader); ;
-            //        myReader.Close();
-            //        myCon.Close();
-            //    }
-            //}
-            //return new JsonResult(table);
+            return Ok(result);
         }
-        [HttpGet("GetDirectors")]
-        public IActionResult GetDirectors()
+        //---------------GETTING MOVIE BY ID
+        [HttpGet("GetMovies/id/{id}")]
+        public async Task<ActionResult<Movie>> Get(int id)
         {
-
-
-            var directors = dbContext.directors.ToList();
-            if (directors.Count == 0)
-            {
-                return StatusCode(404, "no directors");
-            }
-            return Ok(directors);
+            
+            var result = await movieRepository.GetMovie(id);
+            return Ok(result);
         }
+         //-----------DB CONTEXT
+     
+        //[HttpGet("GetDirectors")]
+        //public IActionResult GetDirectors()
+        //{
 
 
-        [HttpGet("GetRatings")]
-        public IActionResult GetRatings()
-        {
+        //    var directors = dbContext.directors.ToList();
+        //    if (directors.Count == 0)
+        //    {
+        //        return StatusCode(404, "no directors");
+        //    }
+        //    return Ok(directors);
+        //}
 
 
-            var ratings = dbContext.ratings.ToList();
-            if (ratings.Count == 0)
-            {
-                return StatusCode(404, "no ratings");
-            }
-            return Ok(ratings);
-        }
-        [HttpGet("GetStars")]
-        public IActionResult GetStars()
-        {
+        //[HttpGet("GetRatings")]
+        //public IActionResult GetRatings()
+        //{
 
 
-            var stars = dbContext.stars.ToList();
-            if (stars.Count == 0)
-            {
-                return StatusCode(404, "no ratings");
-            }
-            return Ok(stars);
-        }
-        [HttpGet("GetPeople")]
-        public IActionResult GetPeople()
-        {
-
-            var p = dbContext.people.ToList();
-            if (p.Count == 0)
-            {
-                return StatusCode(404, "no people");
-            }
-            return Ok(p);
-        }
-        [HttpGet("{id}")]
-        public IActionResult GetPeople(int id)
-        {
-
-            Person person = dbContext.people.Where(c => c.id == id).FirstOrDefault();
-            if (person == null)
-            {
-                return StatusCode(404, "no people");
-            }
-            return Ok(person);
-        }
-        [HttpGet("GetMovies/{id}")]
-        public IActionResult GetMovie(int id)
-        {
-
-            Movie movie = dbContext.movies.Where(c => c.id == id).FirstOrDefault();
-            if (movie == null)
-            {
-                return StatusCode(404, "no people");
-            }
-            return Ok(movie);
-        }
-        [HttpGet("GetDirectorsMovies")]
-        public IActionResult GetDirectorsMovies()
-        {
+        //    var ratings = dbContext.ratings.ToList();
+        //    if (ratings.Count == 0)
+        //    {
+        //        return StatusCode(404, "no ratings");
+        //    }
+        //    return Ok(ratings);
+        //}
+        //[HttpGet("GetStars")]
+        //public IActionResult GetStars()
+        //{
 
 
-            var directors_movies = (from c in dbContext.directors
-                                    join ca in dbContext.movies
-      on c.movie_id equals ca.id
-                                    select new
-                                    {
-                                        MovieId = c.movie_id,
-                                        Title = ca.title
-                                    });
-            if (directors_movies == null)
-            {
-                return StatusCode(404, "no directors");
-            }
-            return Ok(directors_movies.ToList());
-        }
+        //    var stars = dbContext.stars.ToList();
+        //    if (stars.Count == 0)
+        //    {
+        //        return StatusCode(404, "no ratings");
+        //    }
+        //    return Ok(stars);
+        //}
+        //[HttpGet("GetPeople")]
+        //public IActionResult GetPeople()
+        //{
+
+        //    var p = dbContext.people.ToList();
+        //    if (p.Count == 0)
+        //    {
+        //        return StatusCode(404, "no people");
+        //    }
+        //    return Ok(p);
+        //}
+        //[HttpGet("{id}")]
+        //public IActionResult GetPeople(int id)
+        //{
+
+        //    Person person = dbContext.people.Where(c => c.id == id).FirstOrDefault();
+        //    if (person == null)
+        //    {
+        //        return StatusCode(404, "no people");
+        //    }
+        //    return Ok(person);
+        //}
+        //[HttpGet("GetMovies/{id}")]
+        //public IActionResult GetMovie(int id)
+        //{
+
+        //    Movie movie = dbContext.movies.Where(c => c.id == id).FirstOrDefault();
+        //    if (movie == null)
+        //    {
+        //        return StatusCode(404, "no people");
+        //    }
+        //    return Ok(movie);
+        //}
+      //  [HttpGet("GetDirectorsMovies")]
+      //  public IActionResult GetDirectorsMovies()
+      //  {
+
+
+      //      var directors_movies = (from c in dbContext.directors
+      //                              join ca in dbContext.movies
+      //on c.movie_id equals ca.id
+      //                              select new
+      //                              {
+      //                                  MovieId = c.movie_id,
+      //                                  Title = ca.title
+      //                              });
+      //      if (directors_movies == null)
+      //      {
+      //          return StatusCode(404, "no directors");
+      //      }
+      //      return Ok(directors_movies.ToList());
+      //  }
 
 
         //[HttpGet("GetMoviesInfo")]
