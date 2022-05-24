@@ -8,10 +8,11 @@ namespace MovieApp.Data
 {
     public class Rating
     {
-        [Key]
+        
         public int movie_id { get; set; }
-        public float rating { get; set; }
+        public float value { get; set; }
         public int votes { get; set; }
+        public virtual Movie movies { get; set; } = null!;
         //public int movie_id { get; set; }
         //public float rating { get; set; }
         //public string name { get; set; }

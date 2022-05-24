@@ -8,11 +8,10 @@ namespace MovieApp.Data
 {
     public class Person
     {
-        [Key]
+      
         public int id { get; set; }
-        public string name { get; set; }
-        //---------error because of the null values 
-        //public decimal birth { get; set; }
+        public string name { get; set; } = null!;        
+        public decimal? birth { get; set; }
         //public int movie_id { get; set; }
         //public float rating { get; set; }
         //public string name { get; set; }
