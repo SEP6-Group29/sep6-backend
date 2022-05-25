@@ -30,15 +30,15 @@ namespace MovieApp.Repository
         //}
         public async Task<List<FilterMovie>> GetMoviesAsync(Filter filter)
         {           
-            var movies = dbContext.movies_.Where(m => EF.Functions.Like(m.title, $"%{filter.title}%"));         
-
+             
+            var movies = dbContext.movies_.AsQueryable().Where(m => EF.Functions.Like(m.title, $"%{filter.title}%"));         
 
             return await movies.ToListAsync();
         }
 
         public async Task<List<FilterMovie?>> GetListOf8Movies()
         {
-            var movies = dbContext.movies_.Where(m => m.year == 2022).Take(5);
+            var movies = dbContext.movies_.AsQueryable().Where(m => m.year == 2022).Take(5);
             return await movies.ToListAsync();
         }
 
