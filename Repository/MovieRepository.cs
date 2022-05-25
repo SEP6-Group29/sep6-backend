@@ -40,6 +40,14 @@ namespace MovieApp.Repository
             }
             return await q.ToListAsync();
         }
-       
-      }
+
+        public async Task<List<Movie?>> AddMovieToFavList()
+        {
+            var moviesList = dbContext.movies.FromSqlRaw("SELECT TOP 8 * FROM movies where year = 2022");
+
+            return  await moviesList.ToListAsync();
+        }
+
+     
+    }
 }

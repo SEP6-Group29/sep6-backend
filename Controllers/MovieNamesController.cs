@@ -47,6 +47,16 @@ namespace MovieApp.Controllers
             var result = await movieRepository.GetMovie(id);
             return Ok(result);
         }
+        [HttpGet("TopMovies/get")]
+        public async Task<ActionResult<IEnumerable<Movie>>> AddMovieToFavList()
+        {
+           
+
+                var result = await movieRepository.AddMovieToFavList();
+                return Ok(result);
+            
+        }
+
          //-----------DB CONTEXT
      
         //[HttpGet("GetDirectors")]

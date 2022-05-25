@@ -11,6 +11,7 @@ namespace MovieApp.Repository.Interface
       
         Task<Movie?> GetMovie(int id);
         Task<List<Movie>> GetMoviesAsync(Filter filter);
+        Task<List<Movie>> AddMovieToFavList();
        
     }
 }
