@@ -18,42 +18,48 @@ namespace MovieApp.Controllers
     public class MovieNamesController : ControllerBase
     {
         private readonly IMovieRepository movieRepository;
+        private readonly IFilterRepository filterRepository;
+
         private MovieDbContext dbContext;
         
 
-        public MovieNamesController (IMovieRepository movieRepository)
+        public MovieNamesController (IMovieRepository movieRepository, IFilterRepository filterRepository)
         {
             this.movieRepository = movieRepository;
+            this.filterRepository = filterRepository;
+
             
         }
+        //---------------GETTING MOVIE BY ID with details
+        //api/movienames/getmovies/15724
+        [HttpGet("GetMovies/{id}")]
+        public async Task<ActionResult<Movie>> Get(int id)
+        {
+            var result = await movieRepository.GetMovie(id);
+            return Ok(result);
+        }
 
-        //-------------GETING ALL MOVIES
-        [HttpGet("GetMovies/")]
+
+        //-------------GETING ALL MOVIES by filter
+        // api/movienames/getmovies
+        //http://localhost:5000/api/movienames/getmovies/?title=frivolinas
+        [HttpGet("GetMovies")]
         public async Task<ActionResult<IEnumerable<Movie>>> GetMovies([FromQuery] Filter? filter)
         {
             if (filter == null)
             {
                 filter = new Filter();
             }
-            var result = await movieRepository.GetMoviesAsync(filter);
+            var result = await filterRepository.GetMoviesAsync(filter);
             
             return Ok(result);
         }
-        //---------------GETTING MOVIE BY ID
-        [HttpGet("GetMovies/id/{id}")]
-        public async Task<ActionResult<Movie>> Get(int id)
+        
+        [HttpGet("TopMovies")]
+        public async Task<ActionResult<IEnumerable<Movie>>> GetListOf8Movies()
         {
-            
-            var result = await movieRepository.GetMovie(id);
-            return Ok(result);
-        }
-        [HttpGet("TopMovies/get")]
-        public async Task<ActionResult<IEnumerable<Movie>>> AddMovieToFavList()
-        {
-           
-
-                var result = await movieRepository.AddMovieToFavList();
-                return Ok(result);
+             var result = await filterRepository.GetListOf8Movies();
+              return Ok(result);
             
         }
 

@@ -10,11 +10,13 @@ namespace MovieApp.Repository
     {
         protected readonly MovieDbContext dbContext;
         protected IQueryable<T> query;
+        
 
         public Base(MovieDbContext dbContext)
         {
             this.dbContext = dbContext;
             query = this.dbContext.Set<T>().AsQueryable();
+       
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -8,8 +9,9 @@ namespace MovieApp.Data
 {
     public class Movie
     {
-       
+       //get id
         public int id { get; set; }
+        
         public string title { get; set; } = null!;
         public decimal year { get; set; }
         public List<Directors> directors { get; set; } = new List<Directors>();

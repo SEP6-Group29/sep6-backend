@@ -45,6 +45,7 @@ namespace MovieApp
 
             services.AddControllers().AddNewtonsoftJson(options=>options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddScoped<IMovieRepository, MovieRepository>();
+            services.AddScoped<IFilterRepository, FilterRepository>();
 
         }
 

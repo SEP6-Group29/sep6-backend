@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace MovieApp.Repository.Interface
 {
-    public interface IMovieRepository
+    public interface IFilterRepository
     {
-      
-        Task<Movie?> GetMovie(int id);
-     
        
+        Task<List<FilterMovie>> GetMoviesAsync(Filter filter);
+        Task<List<FilterMovie>> GetListOf8Movies();
+
     }
 }
