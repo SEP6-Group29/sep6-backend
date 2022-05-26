@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using MovieApp.Data;
+using MovieApp.Helpers;
 using MovieApp.Repository;
 using MovieApp.Repository.Interface;
 using Newtonsoft.Json.Serialization;
@@ -32,6 +33,7 @@ namespace MovieApp
             
             var connectionString = Configuration.GetConnectionString("MoviesAppCon");
             services.AddDbContext<MovieDbContext>(options => options.UseSqlServer(connectionString));
+            services.AddDbContext<UserDbContext>(options => options.UseSqlServer(connectionString));
             
             //services.AddCors(c =>
             //{ 
@@ -46,6 +48,8 @@ namespace MovieApp
             services.AddControllers().AddNewtonsoftJson(options=>options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddScoped<IMovieRepository, MovieRepository>();
             services.AddScoped<IFilterRepository, FilterRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<JWTService>();
 
         }
 
