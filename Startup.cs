@@ -32,6 +32,7 @@ namespace MovieApp
         {
             
             var connectionString = Configuration.GetConnectionString("MoviesAppCon");
+            services.AddCors();
             services.AddDbContext<MovieDbContext>(options => options.UseSqlServer(connectionString));
             services.AddDbContext<UserDbContext>(options => options.UseSqlServer(connectionString));
             
@@ -63,6 +64,11 @@ namespace MovieApp
             }
 
             app.UseRouting();
+            app.UseCors(options => options
+            .WithOrigins(new[] {"http://localhost:3000", "http://localhost:8080", "https://fisney.azurewebsites.net/"})
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials());
 
             app.UseAuthorization();
 
