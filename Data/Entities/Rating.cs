@@ -13,7 +13,7 @@ namespace MovieApp.Data
         public float value { get; set; }
         public int votes { get; set; }
         public virtual Movie movies { get; set; } = null!;
-        //public virtual FilterMovie moviesF { get; set; } = null!;
+        //public virtual FilterMovie movies_ { get; set; } = null!;
         //public int movie_id { get; set; }
         //public float rating { get; set; }
         //public string name { get; set; }

@@ -11,6 +11,7 @@ namespace MovieApp.Repository.Interface
        
         Task<List<Movie>> GetMoviesAsync(Filter filter);
         Task<List<FilterMovie>> GetListOf8Movies();
+        Task<List<FilterMovie>> GetListofDecade(int decade);
 
     }
 }

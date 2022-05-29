@@ -62,9 +62,16 @@ namespace MovieApp.Controllers
               return Ok(result);
             
         }
+        [HttpGet("Top/{decade}")]
+        public async Task<ActionResult<IEnumerable<Movie>>> GetListOfDecade(int decade)
+        {
+            var result = await filterRepository.GetListofDecade(decade);
+            return Ok(result);
 
-         //-----------DB CONTEXT
-     
+        }
+
+        //-----------DB CONTEXT
+
         //[HttpGet("GetDirectors")]
         //public IActionResult GetDirectors()
         //{
@@ -136,25 +143,25 @@ namespace MovieApp.Controllers
         //    }
         //    return Ok(movie);
         //}
-      //  [HttpGet("GetDirectorsMovies")]
-      //  public IActionResult GetDirectorsMovies()
-      //  {
+        //  [HttpGet("GetDirectorsMovies")]
+        //  public IActionResult GetDirectorsMovies()
+        //  {
 
 
-      //      var directors_movies = (from c in dbContext.directors
-      //                              join ca in dbContext.movies
-      //on c.movie_id equals ca.id
-      //                              select new
-      //                              {
-      //                                  MovieId = c.movie_id,
-      //                                  Title = ca.title
-      //                              });
-      //      if (directors_movies == null)
-      //      {
-      //          return StatusCode(404, "no directors");
-      //      }
-      //      return Ok(directors_movies.ToList());
-      //  }
+        //      var directors_movies = (from c in dbContext.directors
+        //                              join ca in dbContext.movies
+        //on c.movie_id equals ca.id
+        //                              select new
+        //                              {
+        //                                  MovieId = c.movie_id,
+        //                                  Title = ca.title
+        //                              });
+        //      if (directors_movies == null)
+        //      {
+        //          return StatusCode(404, "no directors");
+        //      }
+        //      return Ok(directors_movies.ToList());
+        //  }
 
 
         //[HttpGet("GetMoviesInfo")]

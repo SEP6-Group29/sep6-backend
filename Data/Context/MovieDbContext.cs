@@ -134,7 +134,7 @@ namespace MovieApp.Data
                     .HasForeignKey<Rating>(p => p.movie_id)
                     .OnDelete(DeleteBehavior.Cascade);
 
-                //entity.HasOne(d => d.moviesF)
+                //entity.HasOne(d => d.movies_)
                 //  .WithOne(m => m.rating)
                 //  .HasForeignKey<Rating>(p => p.movie_id)
                 //  .OnDelete(DeleteBehavior.Cascade);
