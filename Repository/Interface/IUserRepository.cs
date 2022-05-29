@@ -1,4 +1,5 @@
 ﻿using MovieApp.Data;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace MovieApp.Repository
@@ -8,6 +9,6 @@ namespace MovieApp.Repository
         User GetUsers(string username);
         Task<User> CreateUser(User user);
         User GetById(int id);
-
+        Task<List<User>> GetUsersAsync();
     }
 }

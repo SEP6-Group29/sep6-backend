@@ -25,13 +25,21 @@ namespace MovieApp.Repository
 
             return dbContext.users.FirstOrDefault(o => o.username == username);
         }
-
-        public async Task<User> CreateUser(User userDto)
+        public async Task<List<User>> GetUsersAsync()
         {
 
-            var users = dbContext.users.Add(userDto);
-            dbContext.SaveChanges();
-            return userDto;
+            var users = dbContext.users.AsQueryable().Take(5);
+
+            return await users.ToListAsync();
+        }
+      
+
+        public async Task<User> CreateUser(User user)
+        {
+
+            dbContext.users.Add(user);
+            user.id= dbContext.SaveChanges();
+            return user;
             
         }
         public User GetById(int id)

@@ -32,7 +32,13 @@ namespace MovieApp.Controllers
 
         }
 
-        [HttpGet("GetUsers/{username}")]
+        [HttpGet("GetUsers")]
+        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        {
+            var users = await userRepository.GetUsersAsync();
+            return Ok(users);
+
+        }
 
         [HttpPost("register")]
         public async Task<IActionResult> CreateUser(UserDto userdto)
@@ -40,14 +46,13 @@ namespace MovieApp.Controllers
 
             User user_ = new User
             {
-                id = userdto.id,
+                
                 username = userdto.username,
                 password = BCrypt.Net.BCrypt.HashPassword(userdto.password),
                 emailAddress = userdto.emailAddress
             };
             return Created("Success", userRepository.CreateUser(user_));
         }
-
         [HttpPost("login")]
         public IActionResult Login(LoginDto dto)
         {

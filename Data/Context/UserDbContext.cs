@@ -34,7 +34,7 @@ namespace MovieApp.Data
 
                 entity.Property(e => e.id)
                     .HasColumnName("id")
-                    .ValueGeneratedOnAdd();
+                    .UseIdentityColumn();
 
 
                 entity.Property(e => e.username)

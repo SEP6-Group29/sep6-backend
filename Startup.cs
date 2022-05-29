@@ -65,7 +65,7 @@ namespace MovieApp
 
             app.UseRouting();
             app.UseCors(options => options
-            .WithOrigins(new[] {"http://localhost:3000", "http://localhost:8080", "https://fisney.azurewebsites.net/"})
+            .WithOrigins(new[] {"http://localhost:3000", "http://localhost:8080", "https://fisney.azurewebsites.net/", "http://localhost:5000"})
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials());
