@@ -72,8 +72,8 @@ namespace MovieApp.Controllers
             });
             return Ok(new
             {
-                message = "success"
-            });
+                message = jwt
+            }); ;
 
         }
         [HttpGet("user")]
