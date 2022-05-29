@@ -12,8 +12,10 @@ namespace MovieApp.Repository
     {
         public FilterRepository(MovieDbContext dbContext) : base(dbContext)
         {
-            
-             
+          //  query = query
+          //.Include(f => f.rating);
+          
+
         }
         //-----------------GET MOVIE BY TITLE (FILTERING)
         //syntax for routing filter
@@ -38,8 +40,9 @@ namespace MovieApp.Repository
 
         public async Task<List<FilterMovie?>> GetListOf8Movies()
         {
-            var movies = dbContext.movies_.AsQueryable().Where(m => m.year == 2022).Take(8);
+            var movies = dbContext.movies_.AsQueryable().Where(m => m.year == 2021).Take(8);
             return await movies.ToListAsync();
+
         }
 
     }
