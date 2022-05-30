@@ -12,7 +12,11 @@ namespace MovieApp.Data
         
         public string title { get; set; } = null!;
         public decimal year { get; set; }
+        public string Poster { get; set; }
+        public string imdbRating { get; set; }
+
         //public Rating rating { get; set; }
+
 
 
     }

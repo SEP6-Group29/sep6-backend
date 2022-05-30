@@ -37,13 +37,19 @@ namespace MovieApp.Repository
 
             return await movies.ToListAsync();
         }
-
+       
         public async Task<List<FilterMovie?>> GetListOf8Movies()
         {
             var movies = dbContext.movies_.AsQueryable().Where(m => m.year == 2021).Take(8);
+
             return await movies.ToListAsync();
 
         }
+        //public async Task<List<FilterMovie?>> GetPoster()
+        //{
+        //  var movies = dbContext.movies_
+
+        //}
         public async Task<List<FilterMovie?>> GetListofDecade(int decade)
         {
             var decade80 = dbContext.movies_.AsQueryable().Where(m => m.year < 1990 && m.year > 1979).Take(5); //80s 8

@@ -92,6 +92,8 @@ namespace MovieApp.Data
 
                 entity.Property(e => e.year)
                     .HasColumnName("year");
+                entity.Ignore(e => e.Poster);
+                entity.Ignore(e => e.imdbRating);
 
             });
             

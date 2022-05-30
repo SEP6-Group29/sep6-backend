@@ -10,6 +10,12 @@ using System.Data;
 using MovieApp.Models;
 using MovieApp.Data;
 using MovieApp.Repository.Interface;
+using MovieApp.Repository;
+using System.IO;
+using System.Net.Http;
+using System.Text;
+using System.Text.Json;
+using MovieApp.Data.Entities;
 
 namespace MovieApp.Controllers
 {
@@ -19,6 +25,7 @@ namespace MovieApp.Controllers
     {
         private readonly IMovieRepository movieRepository;
         private readonly IFilterRepository filterRepository;
+        private readonly IOmdbService omdbService;
 
         private MovieDbContext dbContext;
         
@@ -27,6 +34,7 @@ namespace MovieApp.Controllers
         {
             this.movieRepository = movieRepository;
             this.filterRepository = filterRepository;
+           
 
             
         }
@@ -56,9 +64,16 @@ namespace MovieApp.Controllers
         }
         
         [HttpGet("TopMovies")]
-        public async Task<ActionResult<IEnumerable<Movie>>> GetListOf8Movies()
+        public async Task<ActionResult<IEnumerable<FilterMovie>>> GetListOf8Movies()
         {
              var result = await filterRepository.GetListOf8Movies();
+            for(int i = 0; i<=7; i++)
+            {
+                FilterMovie movie = new FilterMovie();
+                movie = await getMoviePoster(result[i].id);
+                result[i].Poster = movie.Poster;
+                result[i].imdbRating = movie.imdbRating;               
+            }
               return Ok(result);
             
         }
@@ -69,6 +84,48 @@ namespace MovieApp.Controllers
             return Ok(result);
 
         }
+        //[HttpGet("GetMovies/{id}")]
+        //public IActionResult GetMovie(int id)
+        //{
+
+        //    Movie movie = dbContext.movies.Where(c => c.id == id).FirstOrDefault();
+        //    if (movie == null)
+        //    {
+        //        return StatusCode(404, "no people");
+        //    }
+        //    return Ok(movie);
+        //}
+        //[HttpGet("{id}")]
+        //public async Task<ActionResult<IEnumerable<Movie>>> getMoviePoster(int id)
+        //{
+        //    var result = await omdbService.getMoviePoster(id);
+        //    return Ok(result);
+
+        //}
+        [HttpGet("{id}")]
+        public async Task<FilterMovie> getMoviePoster(int id)
+        {
+
+            HttpClient client = new HttpClient();
+            FilterMovie filterMovie;
+        //movie id 3896198
+        var uri = "https://www.omdbapi.com/?apikey=97352ccd&i=tt" + id;
+            var response = await client.GetAsync(uri);
+            response.EnsureSuccessStatusCode();
+            var responseStream = await response.Content.ReadAsStringAsync();
+            MemoryStream mStrm = new MemoryStream(Encoding.UTF8.GetBytes(responseStream));
+            var responseObject = await JsonSerializer.DeserializeAsync<Rootobject>(mStrm);
+            return  new FilterMovie {   
+                id = id,
+                title = responseObject.Title,
+                year = Convert.ToDecimal(responseObject.Year),
+                Poster = responseObject.Poster,
+                imdbRating= responseObject.imdbRating
+            };
+           }
+       
+
+
 
         //-----------DB CONTEXT
 
@@ -325,4 +382,4 @@ namespace MovieApp.Controllers
         //}
 
     }
-    }
+}

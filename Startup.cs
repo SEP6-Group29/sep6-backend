@@ -50,6 +50,7 @@ namespace MovieApp
             services.AddScoped<IMovieRepository, MovieRepository>();
             services.AddScoped<IFilterRepository, FilterRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddTransient<IOmdbService, OmdbService>();
             services.AddScoped<JWTService>();
 
         }
