@@ -9,7 +9,7 @@ namespace MovieApp.Repository.Interface
     public interface IFilterRepository
     {
        
-        Task<List<Movie>> GetMoviesAsync(Filter filter);
+        Task<List<FilterMovie>> GetMoviesAsync(Filter filter);
         Task<List<FilterMovie>> GetListOf8Movies();
         Task<List<FilterMovie>> GetListofDecade(int decade);
 

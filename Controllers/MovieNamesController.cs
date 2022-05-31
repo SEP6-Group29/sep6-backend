@@ -52,14 +52,22 @@ namespace MovieApp.Controllers
         // api/movienames/getmovies
         //http://localhost:5000/api/movienames/getmovies/?title=frivolinas
         [HttpGet("GetMovies")]
-        public async Task<ActionResult<IEnumerable<Movie>>> GetMovies([FromQuery] Filter? filter)
+        public async Task<ActionResult<IEnumerable<FilterMovie>>> GetMovies([FromQuery] Filter? filter)
         {
+            
             if (filter == null)
             {
                 filter = new Filter();
             }
             var result = await filterRepository.GetMoviesAsync(filter);
-            
+            for (int i = 0; i <= result.Count -1; i++)
+            {
+                FilterMovie movie;
+                movie = await getMoviePoster(result[i].title);
+                result[i].Poster = movie.Poster;
+                result[i].imdbRating = movie.imdbRating;
+            }
+
             return Ok(result);
         }
         
@@ -123,7 +131,33 @@ namespace MovieApp.Controllers
                 imdbRating= responseObject.imdbRating
             };
            }
-       
+        [HttpGet("{title}")]
+        public async Task<FilterMovie> getMoviePoster(string title)
+        {
+
+            HttpClient client = new HttpClient();
+            FilterMovie filterMovie;
+            //movie id 3896198
+            var formatTitle = title.Replace(" ", "+");
+            var uri = "http://www.omdbapi.com/?t=" + formatTitle + "&apikey=97352ccd";
+           
+            var response = await client.GetAsync(uri);
+            response.EnsureSuccessStatusCode();
+            var responseStream = await response.Content.ReadAsStringAsync();
+            MemoryStream mStrm = new MemoryStream(Encoding.UTF8.GetBytes(responseStream));
+            var responseObject = await JsonSerializer.DeserializeAsync<Rootobject>(mStrm);
+            var newString = responseObject.imdbID.Remove(0,2);
+           
+            return new FilterMovie
+            {
+                id = Convert.ToInt32(newString),
+                title = responseObject.Title,
+                year = Convert.ToDecimal(responseObject.Year),
+                Poster = responseObject.Poster,
+                imdbRating = responseObject.imdbRating
+            };
+        }
+
 
 
 
