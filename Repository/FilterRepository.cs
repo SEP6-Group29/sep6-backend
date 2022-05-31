@@ -40,7 +40,7 @@ namespace MovieApp.Repository
        
         public async Task<List<FilterMovie?>> GetListOf8Movies()
         {
-            var movies = dbContext.movies_.AsQueryable().Where(m => m.year == 2021).OrderByDescending(m => m.id).Take(8);
+            var movies = dbContext.movies_.AsQueryable().Where(m => m.year == 2021).OrderByDescending(m => m.id).Take(10);
             //var movies = dbContext.movies_.AsQueryable().Where(m => m.year == 2021).Take(8);
 
 

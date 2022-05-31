@@ -75,7 +75,7 @@ namespace MovieApp.Controllers
         public async Task<ActionResult<IEnumerable<FilterMovie>>> GetListOf8Movies()
         {
              var result = await filterRepository.GetListOf8Movies();
-            for(int i = 0; i<=7; i++)
+            for(int i = 0; i<=9; i++)
             {
                 FilterMovie movie = new FilterMovie();
                 movie = await getMoviePoster(result[i].id);
@@ -89,6 +89,14 @@ namespace MovieApp.Controllers
         public async Task<ActionResult<IEnumerable<Movie>>> GetListOfDecade(int decade)
         {
             var result = await filterRepository.GetListofDecade(decade);
+            for (int i = 0; i <= 4; i++)
+            {
+                FilterMovie movie = new FilterMovie();
+                movie = await getMoviePoster(result[i].title);
+                result[i].Poster = movie.Poster;
+                result[i].imdbRating = movie.imdbRating;
+            }
+            
             return Ok(result);
 
         }
