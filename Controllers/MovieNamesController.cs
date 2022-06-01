@@ -89,7 +89,7 @@ namespace MovieApp.Controllers
         public async Task<ActionResult<IEnumerable<Movie>>> GetListOfDecade(int decade)
         {
             var result = await filterRepository.GetListofDecade(decade);
-            for (int i = 0; i <= 4; i++)
+            for (int i = 0; i <= result.Count-1; i++)
             {
                 FilterMovie movie = new FilterMovie();
                 movie = await getMoviePoster(result[i].title);
